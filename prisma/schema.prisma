@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model countries {
+  country_id   String      @id @db.Char(2)
+  country_name String?     @db.VarChar(40)
+  region_id    Int         @db.UnsignedInt
+  regions      regions     @relation(fields: [region_id], references: [region_id], onUpdate: Restrict, map: "countries_ibfk_1")
+  locations    locations[]
+
+  @@index([region_id], map: "region_id")
+}
+
+model departments {
+  department_id                                  Int           @id @db.UnsignedInt
+  department_name                                String        @db.VarChar(30)
+  manager_id                                     Int?          @db.UnsignedInt
+  location_id                                    Int?          @db.UnsignedInt
+  locations                                      locations?    @relation(fields: [location_id], references: [location_id], onDelete: Restrict, onUpdate: Restrict, map: "departments_ibfk_1")
+  employees_departments_manager_idToemployees    employees?    @relation("departments_manager_idToemployees", fields: [manager_id], references: [employee_id], onDelete: Restrict, onUpdate: Restrict, map: "departments_ibfk_2")
+  employees_employees_department_idTodepartments employees[]   @relation("employees_department_idTodepartments")
+  job_history                                    job_history[]
+
+  @@index([location_id], map: "location_id")
+  @@index([manager_id], map: "manager_id")
+}
+
+model employees {
+  employee_id                                      Int           @id @db.UnsignedInt
+  first_name                                       String?       @db.VarChar(20)
+  last_name                                        String        @db.VarChar(25)
+  email                                            String        @db.VarChar(25)
+  phone_number                                     String?       @db.VarChar(20)
+  hire_date                                        DateTime      @db.Date
+  job_id                                           String        @db.VarChar(10)
+  salary                                           Decimal       @db.Decimal(8, 2)
+  commission_pct                                   Decimal?      @db.Decimal(2, 2)
+  manager_id                                       Int?          @db.UnsignedInt
+  department_id                                    Int?          @db.UnsignedInt
+  departments_departments_manager_idToemployees    departments[] @relation("departments_manager_idToemployees")
+  jobs                                             jobs          @relation(fields: [job_id], references: [job_id], onUpdate: Restrict, map: "employees_ibfk_1")
+  departments_employees_department_idTodepartments departments?  @relation("employees_department_idTodepartments", fields: [department_id], references: [department_id], onDelete: Restrict, onUpdate: Restrict, map: "employees_ibfk_2")
+  employees                                        employees?    @relation("employeesToemployees", fields: [manager_id], references: [employee_id], onDelete: Restrict, onUpdate: Restrict, map: "employees_ibfk_3")
+  other_employees                                  employees[]   @relation("employeesToemployees")
+  job_history                                      job_history[]
+
+  @@index([department_id], map: "department_id")
+  @@index([job_id], map: "job_id")
+  @@index([manager_id], map: "manager_id")
+}
+
+model job_history {
+  employee_id   Int         @db.UnsignedInt
+  start_date    DateTime    @db.Date
+  end_date      DateTime    @db.Date
+  job_id        String      @db.VarChar(10)
+  department_id Int         @db.UnsignedInt
+  employees     employees   @relation(fields: [employee_id], references: [employee_id], onUpdate: Restrict, map: "job_history_ibfk_1")
+  jobs          jobs        @relation(fields: [job_id], references: [job_id], onUpdate: Restrict, map: "job_history_ibfk_2")
+  departments   departments @relation(fields: [department_id], references: [department_id], onUpdate: Restrict, map: "job_history_ibfk_3")
+
+  @@unique([employee_id, start_date], map: "employee_id")
+  @@index([department_id], map: "department_id")
+  @@index([job_id], map: "job_id")
+}
+
+model jobs {
+  job_id      String        @id @db.VarChar(10)
+  job_title   String        @db.VarChar(35)
+  min_salary  Decimal?      @db.Decimal(8, 0)
+  max_salary  Decimal?      @db.Decimal(8, 0)
+  employees   employees[]
+  job_history job_history[]
+}
+
+model locations {
+  location_id    Int           @id @default(autoincrement()) @db.UnsignedInt
+  street_address String?       @db.VarChar(40)
+  postal_code    String?       @db.VarChar(12)
+  city           String        @db.VarChar(30)
+  state_province String?       @db.VarChar(25)
+  country_id     String        @db.Char(2)
+  departments    departments[]
+  countries      countries     @relation(fields: [country_id], references: [country_id], onUpdate: Restrict, map: "locations_ibfk_1")
+
+  @@index([country_id], map: "country_id")
+}
+
+model regions {
+  region_id   Int         @id @db.UnsignedInt
+  region_name String?     @db.VarChar(25)
+  countries   countries[]
+}
