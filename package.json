@@ -5,7 +5,19 @@
   "author": "Changhoon Jee",
   "private": true,
   "license": "UNLICENSED",
+  "keywords": [
+    "nodejs",
+    "express",
+    "prisma",
+    "typescript",
+    "zod",
+    "axios"
+  ],
   "main": "app.ts",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=9.0.0"
+  },
   "scripts": {
     "start": "npx ts-node ./app",
     "devel": "nodemon --exec ts-node ./app.ts --watch",
