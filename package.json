@@ -40,7 +40,6 @@
     "@types/morgan": "^1.9.5",
     "@types/node": "^20.6.3",
     "prisma": "^5.3.1",
-    "readme-md-generator": "^1.0.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }
