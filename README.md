@@ -37,6 +37,22 @@ $ npm run start
 $ npm run test
 ```
 
+## Other commands
+
+```sh
+# generate prisma client
+$ npm run generate
+
+# generate prisma migration
+$ npm run migrate:save
+
+# apply prisma migration
+$ npm run migrate:up
+
+# revert prisma migration
+$ npm run migrate:down
+```
+
 ## Author
 
 👤 **Changhoon Jee <chjee71@gmail.com>**
