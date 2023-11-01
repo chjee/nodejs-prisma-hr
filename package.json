@@ -2,7 +2,7 @@
   "name": "nodejs-prisma-hr",
   "version": "1.0.0",
   "description": "NodeJS, Express, Prisma, TypeScript, Zod, Axios를 이용한 REST API 서버",
-  "author": "Changhoon Jee",
+  "author": "Changhoon Jee <chjee71@gmail.com>",
   "private": true,
   "license": "UNLICENSED",
   "keywords": [
@@ -15,8 +15,8 @@
   ],
   "main": "app.ts",
   "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=9.0.0"
+    "node": ">=18.17.1",
+    "npm": ">=9.6.7"
   },
   "scripts": {
     "start": "npx ts-node ./app",
