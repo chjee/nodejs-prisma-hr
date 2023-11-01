@@ -14,6 +14,9 @@
 
 - node >=18.17.1
 - npm >=9.6.7
+- [download & run SQL script - MySQL](https://github.com/nomemory/hr-schema-mysql/blob/master/hr-schema-mysql.sql)
+  - DB, Table Create
+  - Sample Data Insert
 
 ## Install
 
