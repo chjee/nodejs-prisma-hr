@@ -14,9 +14,6 @@
 
 - node >=18.17.1
 - npm >=9.6.7
-- [download & run SQL script - MySQL](https://github.com/nomemory/hr-schema-mysql/blob/master/hr-schema-mysql.sql)
-  - DB & Table Create
-  - Sample Data Insert
 
 ## Install
 
@@ -44,16 +41,27 @@ $ npm run test
 
 ```sh
 # generate prisma client
-$ npm run generate
+$ npx prisma generate
 
 # generate prisma migration
-$ npm run migrate:save
+$ npx prisma migrate dev --name init
 
-# apply prisma migration
-$ npm run migrate:up
+# reset prisma migration
+$ npx prisma migrate reset
 
-# revert prisma migration
-$ npm run migrate:down
+# execute database seed
+$ npx prisma db seed --preview-feature
+```
+
+## .env file
+
+```sh
+# .env
+LISTEN_PORT=8080
+APP_VER=DevPC
+DATABASE_URL="mysql://root:password@localhost:3306/blog?schema=public"
+SUBWAY_API_URL=""
+SUBWAY_API_KEY=""
 ```
 
 ## Author
